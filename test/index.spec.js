@@ -15,8 +15,15 @@ describe('index', function () {
       keepPix: false,
       output: null
     }
+
     pxrem('.a {width: 750px}', option).should.have.selector('.a')
       .and.decl('width', '10rem')
+
+    pxrem('.a {margin: 15px 2rem}', option).should.have.selector('.a')
+      .and.decl('margin', '0.2rem 2rem')
+
+    pxrem('.a {background: url(123px) 0 15px}', option).should.have.selector('.a')
+      .and.decl('background', 'url(123px) 0 0.2rem')
   })
 
   it('should work with root', function () {
@@ -70,5 +77,18 @@ describe('index', function () {
 
     fs.readFileSync(output).should.have.selector('.a')
       .and.decl('width', '10rem')
+  })
+
+  it('should work with wrap', function () {
+    let option = {
+      unitPrecision: 2
+    }
+    let handler = pxrem.wrap(option)
+
+    handler('.a {width: 100px;}').should.have.selector('.a')
+      .and.decl('width', '1.33rem')
+
+    handler('.a {width: 100px;}', { unitPrecision: 4 }).should.have.selector('.a')
+      .and.decl('width', '1.3333rem')
   })
 })
