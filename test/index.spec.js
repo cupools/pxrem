@@ -11,7 +11,7 @@ describe('index', function () {
     let option = {
       root: 75,
       filter: null,
-      unitPrecision: 6,
+      fixed: 6,
       keepPix: false,
       output: null
     }
@@ -22,8 +22,8 @@ describe('index', function () {
     pxrem('.a {margin: 15px 2rem}', option).should.have.selector('.a')
       .and.decl('margin', '0.2rem 2rem')
 
-    pxrem('.a {background: url(123px) 0 15px}', option).should.have.selector('.a')
-      .and.decl('background', 'url(123px) 0 0.2rem')
+    pxrem('.a {background: url(123px) 75px 15px}', option).should.have.selector('.a')
+      .and.decl('background', 'url(123px) 1rem 0.2rem')
   })
 
   it('should work with root', function () {
@@ -38,9 +38,9 @@ describe('index', function () {
     let option = {
       filter: decl => String.includes(decl, 'width')
     }
-    pxrem('.a {width: 750px; height: 100px;}', option).should.have.selector('.a')
-      .and.decl('width', '10rem')
-      .and.decl('height', '100px')
+    pxrem('.a {width: 100px; height: 750px;}', option).should.have.selector('.a')
+      .and.decl('width', '100px')
+      .and.decl('height', '10rem')
   })
 
   it('should work with filter regexp', function () {
@@ -52,9 +52,9 @@ describe('index', function () {
       .and.decl('height', '100px')
   })
 
-  it('should work with unitPrecision', function () {
+  it('should work with fixed', function () {
     let option = {
-      unitPrecision: 2
+      fixed: 2
     }
     pxrem('.a {width: 100px;}', option).should.have.selector('.a')
       .and.decl('width', '1.33rem')
@@ -66,7 +66,7 @@ describe('index', function () {
     }
     pxrem('.a {width: 750px;}', option).should.have.selector('.a')
       .and.decl('width', '10rem')
-      // .and.decl('width', '100rem')
+      .and.decl('width', '750px')
   })
 
   it('should work with output', function () {
@@ -81,14 +81,14 @@ describe('index', function () {
 
   it('should work with wrap', function () {
     let option = {
-      unitPrecision: 2
+      fixed: 2
     }
     let handler = pxrem.wrap(option)
 
     handler('.a {width: 100px;}').should.have.selector('.a')
       .and.decl('width', '1.33rem')
 
-    handler('.a {width: 100px;}', { unitPrecision: 4 }).should.have.selector('.a')
+    handler('.a {width: 100px;}', { fixed: 4 }).should.have.selector('.a')
       .and.decl('width', '1.3333rem')
   })
 })

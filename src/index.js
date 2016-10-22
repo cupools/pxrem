@@ -6,7 +6,7 @@ import fs from 'fs'
 const defaultOption = {
   root: 75,
   filter: null,
-  unitPrecision: 6,
+  fixed: 6,
   keepPix: true,
   output: null
 }
@@ -35,7 +35,7 @@ function writeFile(output, content) {
 }
 
 function transform(opt) {
-  let { root, filter, unitPrecision, keepPix } = opt
+  let { root, filter, fixed, keepPix } = opt
   let isFunction = filter && filter.constructor === Function
   let isRegExp = filter && filter.constructor === RegExp
 
@@ -43,17 +43,19 @@ function transform(opt) {
     let { prop, value } = decl
 
     // ignore situation
-    if (isFunction && !filter(prop, value, decl)) {
+    if (isFunction && filter(prop, value, decl)) {
       return
     } else if (isRegExp && filter.test(prop)) {
       return
-    } else if (value.slice(-2) !== 'px') {
+    } else if (postcss.list.space(value).every(val => val.slice(-2) !== 'px')) {
+      // TODO, enchancement
       return
     }
 
-    let count = Number(value.slice(0, -2))
-    let revise = Number((count / root).toFixed(unitPrecision))
-    let expected = { value: revise + 'rem' }
+    let replaceWithRem = postcss.list.space(value)
+      .map(revise.bind(null, { root, fixed }))
+      .join(' ')
+    let expected = { value: replaceWithRem }
 
     if (keepPix) {
       decl.cloneAfter(expected)
@@ -61,6 +63,17 @@ function transform(opt) {
       decl.replaceWith(decl.clone(expected))
     }
   }
+}
+
+function revise(option, str) {
+  if (str.slice(-2) !== 'px') {
+    return str
+  }
+
+  let { root, fixed } = option
+  let count = Number(str.slice(0, -2)) / root
+  let val = Number(count.toFixed(fixed)) + 'rem'
+  return val
 }
 
 function wrap(opt) {
