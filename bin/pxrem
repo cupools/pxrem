@@ -3,16 +3,16 @@
 
 var program = require('commander')
 var PKG = require('../package.json')
-var pxrem = require('../lib/cmd/pxrem')
+var pxrem = require('../lib/cmd/pxrem').default
 
 program
   .version(PKG.version)
   .option('-f, --filename <filepath>', 'filename of .css to be used')
   .option('-o, --output <filepath>', 'output path')
-  .option('-r, --root [value]', 'root value from px to rem, default to 75')
-  .option('    --fixed [value]', 'precision of rem value, default to 6')
-  .option('    --filter [RegExp]', 'regexp for declaration which should be ignored')
-  .option('    --keepPx', 'whether keep px unit or not, compatible for old browsers')
+  .option('-r, --root [value]', 'root value from px to rem, default to 75', 75)
+  .option('    --fixed [value]', 'precision of rem value, default to 6', 6)
+  .option('    --filter [RegExp]', 'regexp for declaration which should be ignored', null)
+  .option('    --keepPx', 'whether keep px unit or not, compatible for old browsers', false)
 
 program.parse(process.argv)
 

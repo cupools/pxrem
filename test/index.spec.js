@@ -1,5 +1,5 @@
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-env mocha */
+/* eslint-disable import/no-extraneous-dependencies */
 
 import fs from 'fs'
 

@@ -5,7 +5,7 @@ Transforming css from px to rem.
 ## Todo
 
 - [x] Basic function
-- [ ] Basic CLI
+- [x] Basic CLI
 - [ ] Filter by mark
 - [ ] Test coverage
 - [ ] Documentation

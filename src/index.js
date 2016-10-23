@@ -2,6 +2,7 @@ import postcss from 'postcss'
 import mkdirp from 'mkdirp'
 import path from 'path'
 import fs from 'fs'
+import assert from 'assert'
 
 const defaultOption = {
   root: 75,
@@ -13,6 +14,8 @@ const defaultOption = {
 
 function pxrem(content, opt) {
   let option = Object.assign({}, defaultOption, opt)
+  lint(option)
+
   let root = postcss.parse(content)
   let handle = transform(option)
 
@@ -30,8 +33,8 @@ function pxrem(content, opt) {
 
 function transform(opt) {
   let { root, filter, fixed, keepPx } = opt
-  let isFunction = filter && filter.constructor === Function
-  let isRegExp = filter && filter.constructor === RegExp
+  let isFunction = filter && typeOf(filter) === 'function'
+  let isRegExp = filter && typeOf(filter) === 'regexp'
 
   return function (decl) {
     let { prop, value } = decl
@@ -59,6 +62,17 @@ function transform(opt) {
   }
 }
 
+function lint(option) {
+  assert.ok(
+    typeOf(option.root) === 'number',
+    '`root` should be a number but get ' + typeOf(option.root)
+  )
+  assert.ok(
+    typeOf(option.fixed) === 'number',
+    '`fixed` should be a number but get ' + typeOf(option.fixed)
+  )
+}
+
 function revise(option, str) {
   if (str.slice(-2) !== 'px') {
     return str
@@ -74,6 +88,10 @@ function writeFile(output, content) {
   let dirname = path.dirname(output)
   mkdirp.sync(dirname)
   fs.writeFileSync(output, content)
+}
+
+function typeOf(obj) {
+  return Object.prototype.toString.call(obj).slice(8, -1).toLowerCase()
 }
 
 function wrap(opt) {
