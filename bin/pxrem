@@ -12,7 +12,7 @@ program
   .option('-r, --root [value]', 'root value from px to rem, default to 75', 75)
   .option('    --fixed [value]', 'precision of rem value, default to 6', 6)
   .option('    --filter [RegExp]', 'regexp for declaration which should be ignored', null)
-  .option('    --keepPx', 'whether keep px unit or not, compatible for old browsers', false)
+  .option('    --keepPx', 'keep px for compatible in old browsers', false)
 
 program.parse(process.argv)
 

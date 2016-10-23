@@ -8,7 +8,7 @@ const defaultOption = {
   root: 75,
   filter: null,
   fixed: 6,
-  keepPx: true,
+  keepPx: false,
   output: null
 }
 
