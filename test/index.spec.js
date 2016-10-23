@@ -24,6 +24,11 @@ describe('index', function () {
 
     pxrem('.a {background: url(123px) 75px 15px}', option).should.have.selector('.a')
       .and.decl('background', 'url(123px) 1rem 0.2rem')
+
+    pxrem('@media (max-width: 600px) {.a {width: 75px;}}', option).should.have.selector('.a')
+      .and.decl('width', '1rem')
+
+    pxrem('@keyframes fade {from {width: 15px;} to {width: 30px;}}', option)
   })
 
   it('should work with root', function () {
