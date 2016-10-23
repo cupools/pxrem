@@ -12,7 +12,7 @@ describe('index', function () {
       root: 75,
       filter: null,
       fixed: 6,
-      keepPix: false,
+      keepPx: false,
       output: null
     }
 
@@ -60,9 +60,9 @@ describe('index', function () {
       .and.decl('width', '1.33rem')
   })
 
-  it('should work with keepPix', function () {
+  it('should work with keepPx', function () {
     let option = {
-      keepPix: true
+      keepPx: true
     }
     pxrem('.a {width: 750px;}', option).should.have.selector('.a')
       .and.decl('width', '10rem')

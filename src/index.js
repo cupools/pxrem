@@ -7,7 +7,7 @@ const defaultOption = {
   root: 75,
   filter: null,
   fixed: 6,
-  keepPix: true,
+  keepPx: true,
   output: null
 }
 
@@ -28,14 +28,8 @@ function pxrem(content, opt) {
   return ret
 }
 
-function writeFile(output, content) {
-  let dirname = path.dirname(output)
-  mkdirp.sync(dirname)
-  fs.writeFileSync(output, content)
-}
-
 function transform(opt) {
-  let { root, filter, fixed, keepPix } = opt
+  let { root, filter, fixed, keepPx } = opt
   let isFunction = filter && filter.constructor === Function
   let isRegExp = filter && filter.constructor === RegExp
 
@@ -57,7 +51,7 @@ function transform(opt) {
       .join(' ')
     let expected = { value: replaceWithRem }
 
-    if (keepPix) {
+    if (keepPx) {
       decl.cloneAfter(expected)
     } else {
       decl.replaceWith(decl.clone(expected))
@@ -74,6 +68,12 @@ function revise(option, str) {
   let count = Number(str.slice(0, -2)) / root
   let val = Number(count.toFixed(fixed)) + 'rem'
   return val
+}
+
+function writeFile(output, content) {
+  let dirname = path.dirname(output)
+  mkdirp.sync(dirname)
+  fs.writeFileSync(output, content)
 }
 
 function wrap(opt) {

@@ -1,0 +1,33 @@
+#!/usr/bin/env node
+'use strict'
+
+var program = require('commander')
+var PKG = require('../package.json')
+var pxrem = require('../lib/cmd/pxrem')
+
+program
+  .version(PKG.version)
+  .option('-f, --filename <filepath>', 'filename of .css to be used')
+  .option('-o, --output <filepath>', 'output path')
+  .option('-r, --root [value]', 'root value from px to rem, default to 75')
+  .option('    --fixed [value]', 'precision of rem value, default to 6')
+  .option('    --filter [RegExp]', 'regexp for declaration which should be ignored')
+  .option('    --keepPx', 'whether keep px unit or not, compatible for old browsers')
+
+program.parse(process.argv)
+
+var root = program.root
+var filename = program.filename
+var output = program.output
+var fixed = program.fixed
+var filter = program.filter
+var keepPx = !!program.keepPx
+
+pxrem({
+  root: root,
+  filename: filename,
+  output: output,
+  fixed: fixed,
+  filter: filter,
+  keepPx: keepPx
+})

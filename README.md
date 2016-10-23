@@ -2,7 +2,7 @@
 
 Transforming css from px to rem.
 
-## TODO
+## Todo
 
 - [x] Basic function
 - [ ] Basic CLI
