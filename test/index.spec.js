@@ -16,16 +16,16 @@ describe('index', function () {
       output: null
     }
 
-    pxrem('.a {width: 750px}', option).should.have.selector('.a')
+    pxrem('.a {width: 750px}', option).should.have.rule('.a')
       .and.decl('width', '10rem')
 
-    pxrem('.a {margin: 15px 2rem}', option).should.have.selector('.a')
+    pxrem('.a {margin: 15px 2rem}', option).should.have.rule('.a')
       .and.decl('margin', '0.2rem 2rem')
 
-    pxrem('.a {background: url(123px) 75px 15px}', option).should.have.selector('.a')
+    pxrem('.a {background: url(123px) 75px 15px}', option).should.have.rule('.a')
       .and.decl('background', 'url(123px) 1rem 0.2rem')
 
-    pxrem('@media (max-width: 600px) {.a {width: 75px;}}', option).should.have.selector('.a')
+    pxrem('@media (max-width: 600px) {.a {width: 75px;}}', option).should.have.rule('.a')
       .and.decl('width', '1rem')
 
     pxrem('@keyframes fade {from {width: 15px;} to {width: 30px;}}', option)
@@ -35,7 +35,7 @@ describe('index', function () {
     let option = {
       root: 1000
     }
-    pxrem('.a {width: 750px}', option).should.have.selector('.a')
+    pxrem('.a {width: 750px}', option).should.have.rule('.a')
       .and.decl('width', '0.75rem')
   })
 
@@ -43,7 +43,7 @@ describe('index', function () {
     let option = {
       filter: decl => String.includes(decl, 'width')
     }
-    pxrem('.a {width: 100px; height: 750px;}', option).should.have.selector('.a')
+    pxrem('.a {width: 100px; height: 750px;}', option).should.have.rule('.a')
       .and.decl('width', '100px')
       .and.decl('height', '10rem')
   })
@@ -52,7 +52,7 @@ describe('index', function () {
     let option = {
       filter: /height/
     }
-    pxrem('.a {width: 750px; height: 100px;}', option).should.have.selector('.a')
+    pxrem('.a {width: 750px; height: 100px;}', option).should.have.rule('.a')
       .and.decl('width', '10rem')
       .and.decl('height', '100px')
   })
@@ -61,7 +61,7 @@ describe('index', function () {
     let option = {
       fixed: 2
     }
-    pxrem('.a {width: 100px;}', option).should.have.selector('.a')
+    pxrem('.a {width: 100px;}', option).should.have.rule('.a')
       .and.decl('width', '1.33rem')
   })
 
@@ -69,7 +69,7 @@ describe('index', function () {
     let option = {
       keepPx: true
     }
-    pxrem('.a {width: 750px;}', option).should.have.selector('.a')
+    pxrem('.a {width: 750px;}', option).should.have.rule('.a')
       .and.decl('width', '10rem')
       .and.decl('width', '750px')
   })
@@ -77,10 +77,10 @@ describe('index', function () {
   it('should work with output', function () {
     let output = 'test/tmp/style.css'
     let option = { output }
-    pxrem('.a {width: 750px;}', option).should.have.selector('.a')
+    pxrem('.a {width: 750px;}', option).should.have.rule('.a')
       .and.decl('width', '10rem')
 
-    fs.readFileSync(output).should.have.selector('.a')
+    fs.readFileSync(output).should.have.rule('.a')
       .and.decl('width', '10rem')
   })
 
@@ -90,10 +90,10 @@ describe('index', function () {
     }
     let handler = pxrem.wrap(option)
 
-    handler('.a {width: 100px;}').should.have.selector('.a')
+    handler('.a {width: 100px;}').should.have.rule('.a')
       .and.decl('width', '1.33rem')
 
-    handler('.a {width: 100px;}', { fixed: 4 }).should.have.selector('.a')
+    handler('.a {width: 100px;}', { fixed: 4 }).should.have.rule('.a')
       .and.decl('width', '1.3333rem')
   })
 })

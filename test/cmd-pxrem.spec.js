@@ -11,7 +11,7 @@ describe('cmd - pxrem', function () {
       filename: 'test/fixtures/style.css'
     }
 
-    pxrem(option).should.have.selector('.a')
+    pxrem(option).should.have.rule('.a')
       .and.decl('width', '1rem')
   })
 
