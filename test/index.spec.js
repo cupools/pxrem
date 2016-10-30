@@ -77,6 +77,20 @@ describe('index', function () {
       .and.decl('width', '750px')
   })
 
+  it('should work with comment', function () {
+    let option = {
+      commentFilter: 'bye'
+    }
+
+    pxrem('.a {width: 10px; /*bye*/}', option).should.have.rule('.a')
+      .and.decl('width', '10px')
+    pxrem('.a {width: 10px; /*no*/}').should.have.rule('.a')
+      .and.decl('width', '10px')
+    pxrem('.a {width: 10px; /* no */ height: 75px }').should.have.rule('.a')
+      .and.decl('width', '10px')
+      .and.decl('height', '1rem')
+  })
+
   it('should work with output', function () {
     let output = 'test/tmp/style.css'
     let option = { output }

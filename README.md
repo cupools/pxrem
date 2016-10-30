@@ -6,8 +6,8 @@ Transforming css from px to rem.
 
 - [x] Basic function
 - [x] Basic CLI
-- [ ] Filter by comment mark
-- [ ] Test coverage
+- [x] Filter by comment mark
+- [x] Test coverage
 - [ ] Documentation
 
 ## Getting Started

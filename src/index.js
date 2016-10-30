@@ -9,7 +9,8 @@ const defaultOption = {
   filter: null,
   fixed: 6,
   keepPx: false,
-  output: null
+  output: null,
+  commentFilter: 'no'
 }
 
 function pxrem(content, opt) {
@@ -32,12 +33,13 @@ function pxrem(content, opt) {
 }
 
 function transform(opt) {
-  let { root, filter, fixed, keepPx } = opt
+  let { root, filter, fixed, keepPx, commentFilter } = opt
   let isFunction = filter && typeOf(filter) === 'function'
   let isRegExp = filter && typeOf(filter) === 'regexp'
 
   return function (decl) {
     let { prop, value } = decl
+    let nextNode = decl.next()
 
     // ignore situation
     if (isFunction && filter(prop, value, decl)) {
@@ -46,6 +48,8 @@ function transform(opt) {
       return
     } else if (postcss.list.space(value).every(val => val.slice(-2) !== 'px')) {
       // TODO, enchancement
+      return
+    } else if (nextNode && nextNode.type === 'comment' && nextNode.text === commentFilter) {
       return
     }
 
