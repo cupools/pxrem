@@ -14,9 +14,7 @@ const defaultOption = {
 }
 
 function pxrem(content, opt) {
-  let option = Object.assign({}, defaultOption, opt)
-  lint(option)
-
+  let option = reviseOption(opt, defaultOption)
   let root = postcss.parse(content)
   let handle = transform(option)
 
@@ -34,6 +32,7 @@ function pxrem(content, opt) {
 
 function transform(opt) {
   let { root, filter, fixed, keepPx, commentFilter } = opt
+
   let isFunction = filter && typeOf(filter) === 'function'
   let isRegExp = filter && typeOf(filter) === 'regexp'
 
@@ -66,17 +65,6 @@ function transform(opt) {
   }
 }
 
-function lint(option) {
-  assert.ok(
-    typeOf(option.root) === 'number',
-    '`root` should be a number but get ' + typeOf(option.root)
-  )
-  assert.ok(
-    typeOf(option.fixed) === 'number',
-    '`fixed` should be a number but get ' + typeOf(option.fixed)
-  )
-}
-
 function revise(option, str) {
   if (str.slice(-2) !== 'px') {
     return str
@@ -96,6 +84,28 @@ function writeFile(output, content) {
 
 function typeOf(obj) {
   return Object.prototype.toString.call(obj).slice(8, -1).toLowerCase()
+}
+
+function reviseOption(opt, def) {
+  let option = Object.assign({}, def, opt)
+
+  assert.ok(
+    typeOf(option.root) === 'number',
+    '`root` should be a number but get ' + typeOf(option.root)
+  )
+  assert.ok(
+    typeOf(option.fixed) === 'number',
+    '`fixed` should be a number but get ' + typeOf(option.fixed)
+  )
+
+  if (typeOf(option.filter) === 'string') {
+    return {
+      ...option,
+      filter: new RegExp(option.filter.replace(/^\/*|\/*$/g, ''))
+    }
+  }
+
+  return option
 }
 
 function wrap(opt) {
