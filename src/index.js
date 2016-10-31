@@ -45,8 +45,7 @@ function transform(opt) {
       return
     } else if (isRegExp && filter.test(prop)) {
       return
-    } else if (postcss.list.space(value).every(val => val.slice(-2) !== 'px')) {
-      // TODO, enchancement
+    } else if (!String.includes(decl, 'px') || postcss.list.space(value).every(val => val.slice(-2) !== 'px')) {
       return
     } else if (nextNode && nextNode.type === 'comment' && nextNode.text === commentFilter) {
       return

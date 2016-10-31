@@ -15,6 +15,16 @@ describe('cmd - pxrem', function () {
       .and.decl('width', '1rem')
   })
 
+  it('should handle regexp from string', function () {
+    let option = {
+      filename: 'test/fixtures/style.css',
+      filter: '/^width$/'
+    }
+
+    pxrem(option).should.have.rule('.a')
+      .and.decl('width', '75px')
+  })
+
   it('should exit when miss filename', function () {
     let option = {}
     expect(pxrem(option)).to.be.a('null')
