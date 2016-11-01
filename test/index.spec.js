@@ -44,7 +44,7 @@ describe('index', function () {
 
   it('should work with filter function', function () {
     let option = {
-      filter: decl => String.includes(decl, 'width')
+      filter: prop => String.includes(prop, 'width')
     }
     pxrem('.a {width: 100px; height: 750px;}', option).should.have.rule('.a')
       .and.decl('width', '100px')
