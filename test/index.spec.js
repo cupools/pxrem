@@ -1,6 +1,7 @@
 /* eslint-env mocha */
 /* eslint-disable import/no-extraneous-dependencies */
 
+import { expect } from 'chai'
 import fs from 'fs'
 
 import './common'
@@ -112,5 +113,55 @@ describe('index', function () {
 
     handler('.a {width: 100px;}', { fixed: 4 }).should.have.rule('.a')
       .and.decl('width', '1.3333rem')
+  })
+
+  it('should exit for fail assert `root`', function () {
+    expect(function () {
+      pxrem('', { root: {} })
+    }).to.throw(Error)
+
+    expect(function () {
+      pxrem('', { root: NaN })
+    }).to.throw(Error)
+  })
+
+  it('should exit for fail assert `fixed`', function () {
+    expect(function () {
+      pxrem('', { fixed: {} })
+    }).to.throw(Error)
+
+    expect(function () {
+      pxrem('', { fixed: NaN })
+    }).to.throw(Error)
+  })
+
+  it('should exit for fail assert `filter`', function () {
+    expect(function () {
+      pxrem('', { filter: {} })
+    }).to.throw(Error)
+
+    expect(function () {
+      pxrem('', { filter: 1 })
+    }).to.throw(Error)
+  })
+
+  it('should exit for fail assert `output`', function () {
+    expect(function () {
+      pxrem('', { output: {} })
+    }).to.throw(Error)
+
+    expect(function () {
+      pxrem('', { output: 1 })
+    }).to.throw(Error)
+  })
+
+  it('should exit for fail assert `commentFilter`', function () {
+    expect(function () {
+      pxrem('', { commentFilter: {} })
+    }).to.throw(Error)
+
+    expect(function () {
+      pxrem('', { commentFilter: 1 })
+    }).to.throw(Error)
   })
 })

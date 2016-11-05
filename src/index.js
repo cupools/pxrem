@@ -14,7 +14,7 @@ const defaultOption = {
 }
 
 function pxrem(content, opt) {
-  let option = reviseOption(opt, defaultOption)
+  let option = reviseOption(defaultOption, opt)
   let root = postcss.parse(content)
   let handle = transform(option)
 
@@ -75,6 +75,42 @@ function revise(option, str) {
   return val
 }
 
+function reviseOption(def, opt = {}) {
+  let option = {
+    ...def,
+    ...opt,
+    root: opt.root != null ? Number(opt.root) : def.root,
+    fixed: opt.fixed != null ? Number(opt.fixed) : def.fixed,
+    filter: typeOf(opt.filter) === 'string'
+      ? new RegExp(opt.filter.replace(/^\/*|\/*$/g, ''))
+      : (opt.filter || def.filter)
+  }
+
+  assert.ok(
+    typeOf(option.root) === 'number' && isFinite(option.root),
+    '`root` should be a number but get ' + opt.root
+  )
+  assert.ok(
+    typeOf(option.fixed) === 'number' && isFinite(option.fixed),
+    '`fixed` should be a number but get ' + opt.fixed
+  )
+  assert.ok(
+    option.filter == null || typeOf(option.filter) === 'function' || typeOf(option.filter) === 'regexp',
+    '`fixed` should be a string, regexp or function but get ' + opt.filter
+  )
+  assert.ok(
+    option.output == null || typeOf(option.output) === 'string',
+    '`output` should be a string but get ' + opt.output
+  )
+  assert.ok(
+    option.commentFilter == null || typeOf(option.commentFilter) === 'string',
+    '`commentFilter` should be a string but get ' + opt.commentFilter
+  )
+
+  return option
+}
+
+
 function writeFile(output, content) {
   let dirname = path.dirname(output)
   mkdirp.sync(dirname)
@@ -83,28 +119,6 @@ function writeFile(output, content) {
 
 function typeOf(obj) {
   return Object.prototype.toString.call(obj).slice(8, -1).toLowerCase()
-}
-
-function reviseOption(opt, def) {
-  let option = Object.assign({}, def, opt)
-
-  assert.ok(
-    typeOf(option.root) === 'number',
-    '`root` should be a number but get ' + typeOf(option.root)
-  )
-  assert.ok(
-    typeOf(option.fixed) === 'number',
-    '`fixed` should be a number but get ' + typeOf(option.fixed)
-  )
-
-  if (typeOf(option.filter) === 'string') {
-    return {
-      ...option,
-      filter: new RegExp(option.filter.replace(/^\/*|\/*$/g, ''))
-    }
-  }
-
-  return option
 }
 
 function wrap(opt) {
