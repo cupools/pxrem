@@ -178,3 +178,9 @@ $ pxrem --filename test/fixtures/style.css -output dist/style.css --filter width
 ```bash
 $ npm i && npm test
 ```
+
+## License
+
+Copyright (c) 2016 cupools
+
+Licensed under the MIT license.
