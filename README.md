@@ -1,5 +1,8 @@
 ## pxrem
 
+[![Build Status](https://travis-ci.org/cupools/pxrem.svg?branch=master)](https://travis-ci.org/cupools/pxrem)
+[![Coverage Status](https://coveralls.io/repos/github/cupools/pxrem/badge.svg?branch=master)](https://coveralls.io/github/cupools/pxrem?branch=master)
+
 Transforming css from px to rem.
 
 It's also avaliable as:
