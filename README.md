@@ -12,6 +12,10 @@ It's also avaliable as:
 
 ## Getting Started
 
+```bash
+$ npm i cupools/pxrem
+```
+
 ```js
 var pxrem = require('pxrem')
 var option = {
