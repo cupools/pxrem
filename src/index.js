@@ -14,8 +14,8 @@ function pxrem(opt = {}, root) {
 function transform(opt) {
   const { root, filter, fixed, keepPx, commentFilter } = opt
 
-  const isFunction = filter && typeOf(filter) === 'function'
-  const isRegExp = filter && typeOf(filter) === 'regexp'
+  const isFunction = typeOf(filter) === 'function'
+  const isRegExp = typeOf(filter) === 'regexp'
 
   return decl => {
     const { prop, value } = decl
@@ -26,16 +26,14 @@ function transform(opt) {
       return
     } else if (isRegExp && filter.test(prop)) {
       return
-    } else if (!String.includes(decl, 'px') || postcss.list.space(value).every(val => val.slice(-2) !== 'px')) {
+    } else if (!value.includes('px') || postcss.list.space(value).every(val => val.slice(-2) !== 'px')) {
       return
     } else if (nextNode && nextNode.type === 'comment' && nextNode.text === commentFilter) {
       return
     }
 
-    const replaceWithRem = postcss.list.space(value)
-      .map(revise.bind(null, { root, fixed }))
-      .join(' ')
-    const expected = { value: replaceWithRem }
+    const replaceWithRem = postcss.list.space(value).map(revise.bind(null, { root, fixed }))
+    const expected = { value: replaceWithRem.join(' ') }
 
     if (keepPx) {
       decl.cloneAfter(expected)
