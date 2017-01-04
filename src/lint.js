@@ -1,11 +1,17 @@
 export default {
   root: {
     default: 75,
-    typeOf: 'number'
+    typeOf: 'number',
+    coerce(val) {
+      return val && Number(val)
+    }
   },
   fixed: {
     default: 6,
-    typeOf: 'number'
+    typeOf: 'number',
+    coerce(val) {
+      return val && Number(val)
+    }
   },
   filter: {
     default: null,
