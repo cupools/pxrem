@@ -1,7 +1,4 @@
 /* eslint-env mocha */
-/* eslint-disable import/no-extraneous-dependencies */
-
-import fs from 'fs'
 
 import './common'
 import pxrem from '../src/index'
@@ -12,8 +9,7 @@ describe('index', () => {
       root: 75,
       filter: null,
       fixed: 6,
-      keepPx: false,
-      output: null
+      keepPx: false
     }
 
     pxrem.process('.a {width: 750px}', option).should.have.rule('.a')
@@ -90,34 +86,4 @@ describe('index', () => {
       .and.decl('width', '10px')
       .and.decl('height', '1rem')
   })
-
-  it('should work with output', () => {
-    const output = 'test/tmp/style.css'
-    const option = { output }
-    pxrem.process('.a {width: 750px;}', option).should.have.rule('.a')
-      .and.decl('width', '10rem')
-
-    fs.readFileSync(output).should.have.rule('.a')
-      .and.decl('width', '10rem')
-  })
-
-  it('should exit for fail assert `root`', () => (
-    pxrem.process('', { root: {} }).should.be.rejected
-  ))
-
-  it('should exit for fail assert `fixed`', () => (
-    pxrem.process('', { fixed: {} }).should.be.rejected
-  ))
-
-  it('should exit for fail assert `filter`', () => (
-    pxrem.process('', { filter: {} }).should.be.rejected
-  ))
-
-  it('should exit for fail assert `output`', () => (
-    pxrem.process('', { output: {} }).should.be.rejected
-  ))
-
-  it('should exit for fail assert `commentFilter`', () => (
-    pxrem.process('', { commentFilter: {} }).should.be.rejected
-  ))
 })
