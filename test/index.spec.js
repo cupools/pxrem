@@ -1,14 +1,13 @@
 /* eslint-env mocha */
 /* eslint-disable import/no-extraneous-dependencies */
 
-import { expect } from 'chai'
 import fs from 'fs'
 
 import './common'
 import pxrem from '../src/index'
 
-describe('index', function () {
-  it('should work', function () {
+describe('index', () => {
+  it('should work', () => {
     const option = {
       root: 75,
       filter: null,
@@ -35,7 +34,7 @@ describe('index', function () {
       .and.decl('width', '0.2rem')
   })
 
-  it('should work with root', function () {
+  it('should work with root', () => {
     const option = {
       root: 1000
     }
@@ -43,7 +42,7 @@ describe('index', function () {
       .and.decl('width', '0.75rem')
   })
 
-  it('should work with filter function', function () {
+  it('should work with filter function', () => {
     const option = {
       filter: prop => String.includes(prop, 'width')
     }
@@ -52,7 +51,7 @@ describe('index', function () {
       .and.decl('height', '10rem')
   })
 
-  it('should work with filter regexp', function () {
+  it('should work with filter regexp', () => {
     const option = {
       filter: /height/
     }
@@ -61,7 +60,7 @@ describe('index', function () {
       .and.decl('height', '100px')
   })
 
-  it('should work with fixed', function () {
+  it('should work with fixed', () => {
     const option = {
       fixed: 2
     }
@@ -69,7 +68,7 @@ describe('index', function () {
       .and.decl('width', '1.33rem')
   })
 
-  it('should work with keepPx', function () {
+  it('should work with keepPx', () => {
     const option = {
       keepPx: true
     }
@@ -78,7 +77,7 @@ describe('index', function () {
       .and.decl('width', '750px')
   })
 
-  it('should work with comment', function () {
+  it('should work with comment', () => {
     const option = {
       commentFilter: 'bye'
     }
@@ -92,7 +91,7 @@ describe('index', function () {
       .and.decl('height', '1rem')
   })
 
-  it('should work with output', function () {
+  it('should work with output', () => {
     const output = 'test/tmp/style.css'
     const option = { output }
     pxrem.process('.a {width: 750px;}', option).should.have.rule('.a')
@@ -102,23 +101,23 @@ describe('index', function () {
       .and.decl('width', '10rem')
   })
 
-  it('should exit for fail assert `root`', function () {
-    return pxrem.process('', { root: {} }).should.be.rejected
-  })
+  it('should exit for fail assert `root`', () => (
+    pxrem.process('', { root: {} }).should.be.rejected
+  ))
 
-  it('should exit for fail assert `fixed`', function () {
-    return pxrem.process('', { fixed: {} }).should.be.rejected
-  })
+  it('should exit for fail assert `fixed`', () => (
+    pxrem.process('', { fixed: {} }).should.be.rejected
+  ))
 
-  it('should exit for fail assert `filter`', function () {
-    return pxrem.process('', { filter: {} }).should.be.rejected
-  })
+  it('should exit for fail assert `filter`', () => (
+    pxrem.process('', { filter: {} }).should.be.rejected
+  ))
 
-  it('should exit for fail assert `output`', function () {
-    return pxrem.process('', { output: {} }).should.be.rejected
-  })
+  it('should exit for fail assert `output`', () => (
+    pxrem.process('', { output: {} }).should.be.rejected
+  ))
 
-  it('should exit for fail assert `commentFilter`', function () {
-    return pxrem.process('', { commentFilter: {} }).should.be.rejected
-  })
+  it('should exit for fail assert `commentFilter`', () => (
+    pxrem.process('', { commentFilter: {} }).should.be.rejected
+  ))
 })

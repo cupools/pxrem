@@ -1,7 +1,4 @@
 import postcss from 'postcss'
-import mkdirp from 'mkdirp'
-import path from 'path'
-import fs from 'fs'
 import checkin from 'checkin'
 
 import lint from './lint'
@@ -20,7 +17,7 @@ function transform(opt) {
   const isFunction = filter && typeOf(filter) === 'function'
   const isRegExp = filter && typeOf(filter) === 'regexp'
 
-  return function (decl) {
+  return decl => {
     const { prop, value } = decl
     const nextNode = decl.next()
 

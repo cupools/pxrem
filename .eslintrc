@@ -1,14 +1,12 @@
 {
   "root": true,  
   "parser": "babel-eslint",
-  "extends": "airbnb",
+  "extends": "airbnb-base",
   "env": {
     "node": true,
     "commonjs": true
   },
   "rules": {
-    "indent": ["error", 2, {"SwitchCase": 1}],
-    "func-names": 0,
     "semi": [2, "never"],
     "comma-dangle": [2, "never"],
     "no-use-before-define": 0,
