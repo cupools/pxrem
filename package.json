@@ -24,6 +24,9 @@
   "bugs": {
     "url": "https://github.com/cupools/pxrem/issues"
   },
+  "engine": {
+    "node": ">=4.0.0"
+  },
   "homepage": "https://github.com/cupools/pxrem#readme",
   "dependencies": {
     "babel-runtime": "^6.11.6",
