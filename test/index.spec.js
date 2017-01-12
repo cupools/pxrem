@@ -18,8 +18,11 @@ describe('index', () => {
     pxrem.process('.a {margin: 15px 2rem}', option).should.have.rule('.a')
       .and.decl('margin', '0.2rem 2rem')
 
-    pxrem.process('.a {background: url(123px) 75px 15px}', option).should.have.rule('.a')
-      .and.decl('background', 'url(123px) 1rem 0.2rem')
+    pxrem.process('.a {transform: translate(15px, 15px)}', option).should.have.rule('.a')
+      .and.decl('transform', 'translate(0.2rem, 0.2rem)')
+
+    pxrem.process('.a {background: url(data:img/jpg;base64,123px123) 75px 15px}', option).should.have.rule('.a')
+      .and.decl('background', 'url(data:img/jpg;base64,123px123) 1rem 0.2rem')
 
     pxrem.process('@media (max-width: 600px) {.a {width: 75px;}}', option).should.have.atRule('media', '(max-width: 600px)')
       .and.rule('.a')

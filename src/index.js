@@ -3,6 +3,8 @@ import checkin from 'checkin'
 
 import lint from './lint'
 
+const REG_EXP = /\b(\d+(\.\d+)?)px\b/g
+
 function pxrem(opt = {}, root) {
   const option = checkin(opt, lint)
   const handle = transform(option)
@@ -22,18 +24,18 @@ function transform(opt) {
     const nextNode = decl.next()
 
     // ignore situation
-    if (isFunction && filter(prop, value, decl)) {
+    if (!value.includes('px')) {
+      return
+    } else if (isFunction && filter(prop, value, decl)) {
       return
     } else if (isRegExp && filter.test(prop)) {
-      return
-    } else if (!value.includes('px') || postcss.list.space(value).every(val => val.slice(-2) !== 'px')) {
       return
     } else if (nextNode && nextNode.type === 'comment' && nextNode.text === commentFilter) {
       return
     }
 
-    const replaceWithRem = postcss.list.space(value).map(revise.bind(null, { root, fixed }))
-    const expected = { value: replaceWithRem.join(' ') }
+    const replaceWithRem = revise({ root, fixed }, value)
+    const expected = { value: replaceWithRem }
 
     if (keepPx) {
       decl.cloneAfter(expected)
@@ -48,14 +50,12 @@ function typeOf(obj) {
 }
 
 function revise(option, str) {
-  if (str.slice(-2) !== 'px') {
-    return str
-  }
-
   const { root, fixed } = option
-  const count = Number(str.slice(0, -2)) / root
-  const val = Number(count.toFixed(fixed)) + 'rem'
-  return val
+
+  return str.replace(REG_EXP, (_, $1) => {
+    const count = parseFloat(($1 / root).toFixed(fixed))
+    return count + 'rem'
+  })
 }
 
 export default postcss.plugin('pxrem', opt => pxrem.bind(null, opt))
