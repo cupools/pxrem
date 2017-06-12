@@ -7,6 +7,8 @@ const REG_EXP = /\b(\d+(\.\d+)?)px\b/g
 
 function pxrem(opt = {}, root) {
   const option = checkin(opt, lint)
+  if (!option.enable) return root
+
   const handle = transform(option)
   root.walkDecls(handle)
 

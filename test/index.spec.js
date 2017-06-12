@@ -89,4 +89,10 @@ describe('index', () => {
       .and.decl('width', '10px')
       .and.decl('height', '1rem')
   })
+
+  it('should be disabled', () => {
+    const option = { enable: false }
+    pxrem.process('.a {width: 10px;}', option).should.have.rule('.a')
+      .and.decl('width', '10px')
+  })
 })

@@ -26,5 +26,11 @@ export default {
     coerce(val) {
       return !!val
     }
+  },
+  enable: {
+    default: true,
+    coerce(val) {
+      return !!val
+    }
   }
 }
