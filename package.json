@@ -1,6 +1,6 @@
 {
   "name": "pxrem",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Transforming css from px to rem",
   "main": "index.js",
   "scripts": {

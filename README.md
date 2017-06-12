@@ -34,6 +34,7 @@ pxrem.process('.foo { width: 75px; border: 1px solid #000; }', option).toString(
 - filter: css declaration that should be ignored, can be regexp or function, default to null
 - keepPx: keep px for compatible in old browsers, default to false
 - commentFilter: the comment that after css declaration which should be ignored, default to 'no'
+- enable: enable the plugin, default to true
 
 ## Examples
 

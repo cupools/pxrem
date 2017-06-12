@@ -54,6 +54,7 @@ module.exports = {
 - filter: 过滤不需要进行单位转换的 CSS 属性，可以是正则表达式或者函数，默认为 null
 - keepPx: 是否保留 px 单位以兼容旧浏览器，默认为 false
 - commentFilter: CSS 注释的值，用来声明当前属性不需要进行单位转换，默认为 "no"
+- enable: 是否启用组件
 
 ## 示例
 
