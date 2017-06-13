@@ -88,6 +88,14 @@ describe('index', () => {
     pxrem.process('.a {width: 10px; /* no */ height: 75px }').should.have.rule('.a')
       .and.decl('width', '10px')
       .and.decl('height', '1rem')
+    pxrem.process('/*no*/\n.a {width: 10px; height: 75px}').should.have.rule('.a')
+      .and.decl('width', '10px')
+      .and.decl('height', '75px')
+    pxrem.process('.a { \n/*no*/\n width: 10px; height: 75px }').should.have.rule('.a')
+      .and.decl('width', '10px')
+      .and.decl('height', '75px')
+    pxrem.process('.a {width: 10px;} /*no*/').should.have.rule('.a')
+      .and.decl('width', '0.133333rem')
   })
 
   it('should be disabled', () => {

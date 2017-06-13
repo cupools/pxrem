@@ -23,7 +23,11 @@ function transform(opt) {
 
   return decl => {
     const { prop, value } = decl
-    const nextNode = decl.next()
+    const possibleCommentNode = [
+      decl.next(), // comment after declaration
+      decl.parent.prev(), // comment before rule
+      decl.parent.nodes[0] // comment right after rule
+    ]
 
     // ignore situation
     if (!value.includes('px')) {
@@ -32,7 +36,7 @@ function transform(opt) {
       return
     } else if (isRegExp && filter.test(prop)) {
       return
-    } else if (nextNode && nextNode.type === 'comment' && nextNode.text === commentFilter) {
+    } else if (possibleCommentNode.some(node => node && node.type === 'comment' && node.text === commentFilter)) {
       return
     }
 
